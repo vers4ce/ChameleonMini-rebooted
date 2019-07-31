@@ -458,9 +458,9 @@ uint16_t MifareClassicAppProcess(uint8_t* Buffer, uint16_t BitCount)
         } else if (Buffer[0] == CMD_READ) {
             if (ISO14443ACheckCRCA(Buffer, CMD_READ_FRAME_SIZE)) {
                 /* Read command. Read data from memory and append CRCA. */
-                MemoryReadBlock(Buffer, (uint16_t) Buffer[1] * MEM_BYTES_PER_BLOCK, MEM_BYTES_PER_BLOCK);
+                MemoryReadBlock(Buffer, (uint16_t) Buffer[1] * MEM_BYTES_PER_BLOCK, MEM_BYTES_PER_BLOCK) | ISO14443A_APP_CUSTOM_PARITY;
                 ISO14443AAppendCRCA(Buffer, MEM_BYTES_PER_BLOCK);
-
+		    
                 return (CMD_READ_RESPONSE_FRAME_SIZE + ISO14443A_CRCA_SIZE )
                         * BITS_PER_BYTE;
             } else {
